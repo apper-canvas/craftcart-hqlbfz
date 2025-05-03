@@ -1,17 +1,22 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
 import { motion, AnimatePresence } from 'framer-motion';
 import getIcon from './utils/iconUtils';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
+import Checkout from './pages/Checkout';
+import OrderConfirmation from './pages/OrderConfirmation';
+import Cart from './components/Cart';
+import { selectCartItemCount } from './features/cart/cartSlice';
 
 // Header component with navigation and theme toggle
 const Header = ({ toggleTheme, isDarkMode }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(0);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const cartCount = useSelector(selectCartItemCount);
   
   // Get icon components
   const SunIcon = getIcon('Sun');
@@ -26,14 +31,6 @@ const Header = ({ toggleTheme, isDarkMode }) => {
   // Toggle cart sidebar
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);
-    
-    // If opening cart, show toast notification
-    if (!isCartOpen) {
-      toast.info("Shopping cart is currently empty", {
-        position: "bottom-right",
-        autoClose: 2000
-      });
-    }
   };
   
   return (
@@ -141,38 +138,7 @@ const Header = ({ toggleTheme, isDarkMode }) => {
       {/* Cart sidebar */}
       <AnimatePresence>
         {isCartOpen && (
-          <motion.div
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-y-0 right-0 w-full sm:w-96 bg-white dark:bg-surface-800 shadow-lg z-50 overflow-auto"
-          >
-            <div className="p-4 h-full flex flex-col">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold">Your Cart</h2>
-                <button 
-                  onClick={toggleCart}
-                  className="p-2 rounded-full hover:bg-surface-100 dark:hover:bg-surface-700"
-                >
-                  <XIcon className="w-5 h-5" />
-                </button>
-              </div>
-              
-              <div className="flex-1 flex items-center justify-center">
-                <div className="text-center">
-                  <ShoppingBagIcon className="w-16 h-16 mx-auto mb-4 text-surface-300" />
-                  <p className="text-surface-600 dark:text-surface-400">Your cart is empty</p>
-                  <button 
-                    onClick={toggleCart}
-                    className="mt-4 px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-lg transition-colors"
-                  >
-                    Continue Shopping
-                  </button>
-                </div>
-              </div>
-            </div>
-          </motion.div>
+          <Cart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
         )}
       </AnimatePresence>
     </header>
@@ -266,6 +232,8 @@ function App() {
       <main className="flex-1">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/order-confirmation" element={<OrderConfirmation />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

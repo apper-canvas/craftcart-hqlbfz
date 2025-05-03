@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { addItem } from '../features/cart/cartSlice';
 import getIcon from '../utils/iconUtils';
 
 // Sample product data
@@ -252,13 +254,13 @@ const EmptyState = () => {
 
 // Main product feature component
 const MainFeature = ({ selectedCategory }) => {
+  const dispatch = useDispatch();
   const [products, setProducts] = useState(initialProducts);
   const [filteredProducts, setFilteredProducts] = useState(initialProducts);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategories, setActiveCategories] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 200]);
   const [sortOption, setSortOption] = useState('featured');
-  const [cartItems, setCartItems] = useState([]);
   const [isFilterVisible, setIsFilterVisible] = useState(false);
   
   // Get unique categories from products
@@ -343,19 +345,7 @@ const MainFeature = ({ selectedCategory }) => {
   
   // Add product to cart
   const handleAddToCart = (product) => {
-    const existingItem = cartItems.find(item => item.id === product.id);
-    
-    if (existingItem) {
-      setCartItems(prev => 
-        prev.map(item => 
-          item.id === product.id 
-            ? { ...item, quantity: item.quantity + 1 } 
-            : item
-        )
-      );
-    } else {
-      setCartItems(prev => [...prev, { ...product, quantity: 1 }]);
-    }
+    dispatch(addItem(product));
     
     toast.success(`${product.name} added to cart!`, {
       position: "bottom-right",
