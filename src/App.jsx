@@ -9,6 +9,8 @@ import OrderConfirmation from './pages/OrderConfirmation';
 import ProductDetail from './pages/ProductDetail';
 import ReviewModeration from './components/reviews/ReviewModeration';
 import Categories from './pages/Categories';
+import About from './pages/About';
+import Contact from './pages/Contact';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/admin/reviews" element={<ReviewModeration />} />
           <Route path="/categories" element={<Categories />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
