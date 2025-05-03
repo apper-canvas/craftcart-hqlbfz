@@ -8,6 +8,7 @@ import Checkout from './pages/Checkout';
 import OrderConfirmation from './pages/OrderConfirmation';
 import ProductDetail from './pages/ProductDetail';
 import ReviewModeration from './components/reviews/ReviewModeration';
+import Categories from './pages/Categories';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/order-confirmation" element={<OrderConfirmation />} />
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/admin/reviews" element={<ReviewModeration />} />
+          <Route path="/categories" element={<Categories />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
