@@ -16,7 +16,7 @@ const products = [
     description: "A beautiful hand-thrown ceramic mug with a unique glaze finish. Perfect for your morning coffee or tea.",
     price: 28.99,
     category: "Ceramics",
-    image: "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?auto=format&q=80&w=600&h=600&fit=crop",
+    image: "https://images.unsplash.com/photo-1574928329270-747efdd40959?auto=format&q=80&w=600&h=600&fit=crop",
     inStock: true,
     featured: true,
     rating: 4.8,
@@ -30,9 +30,9 @@ const products = [
       artist: "Emma Wilson"
     },
     images: [
-      "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?auto=format&q=80&w=600&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1577937927133-66ef06acdf18?auto=format&q=80&w=600&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1578083881344-16ad70d47720?auto=format&q=80&w=600&h=600&fit=crop"
+      "https://images.unsplash.com/photo-1574928329270-747efdd40959?auto=format&q=80&w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1565800478764-9ae66658145a?auto=format&q=80&w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1614940385454-cc4846795b16?auto=format&q=80&w=600&h=600&fit=crop"
     ]
   },
   {
@@ -41,7 +41,7 @@ const products = [
     description: "Handwoven cotton throw blanket with a beautiful geometric pattern. Adds warmth and style to any space.",
     price: 79.99,
     category: "Textiles",
-    image: "https://images.unsplash.com/photo-1580376259349-5f4b7db4c39f?auto=format&q=80&w=600&h=600&fit=crop",
+    image: "https://images.unsplash.com/photo-1616486788371-62d930495c44?auto=format&q=80&w=600&h=600&fit=crop",
     inStock: true,
     featured: true,
     rating: 4.7,
@@ -54,9 +54,9 @@ const products = [
       artist: "Rosa Mendez"
     },
     images: [
-      "https://images.unsplash.com/photo-1580376259349-5f4b7db4c39f?auto=format&q=80&w=600&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1581539250439-c96689b516dd?auto=format&q=80&w=600&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&q=80&w=600&h=600&fit=crop"
+      "https://images.unsplash.com/photo-1616486788371-62d930495c44?auto=format&q=80&w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1605283176568-9b41fde3672e?auto=format&q=80&w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1584812270981-544873bb8e5c?auto=format&q=80&w=600&h=600&fit=crop"
     ]
   },
   {
@@ -65,7 +65,7 @@ const products = [
     description: "Expertly carved wooden bowl made from sustainable maple. Each piece is unique with natural wood grain patterns.",
     price: 45.00,
     category: "Woodwork",
-    image: "https://images.unsplash.com/photo-1578903360376-88f9ab8c21c3?auto=format&q=80&w=600&h=600&fit=crop",
+    image: "https://images.unsplash.com/photo-1635983238126-f5475d9b5d4e?auto=format&q=80&w=600&h=600&fit=crop",
     inStock: true,
     featured: false,
     rating: 4.9,
@@ -78,9 +78,9 @@ const products = [
       artist: "James Thomas"
     },
     images: [
-      "https://images.unsplash.com/photo-1578903360376-88f9ab8c21c3?auto=format&q=80&w=600&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1635483644420-e3a0a8a51bd7?auto=format&q=80&w=600&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1633614907351-81e1c1ae7b74?auto=format&q=80&w=600&h=600&fit=crop"
+      "https://images.unsplash.com/photo-1635983238126-f5475d9b5d4e?auto=format&q=80&w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1605883705373-4cdf8db99279?auto=format&q=80&w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1594898290009-94f361548aad?auto=format&q=80&w=600&h=600&fit=crop"
     ]
   },
   {
@@ -89,7 +89,7 @@ const products = [
     description: "Delicate sterling silver earrings inspired by natural leaf shapes. Lightweight and perfect for everyday wear.",
     price: 38.50,
     category: "Jewelry",
-    image: "https://images.unsplash.com/photo-1630019852942-7a3592373495?auto=format&q=80&w=600&h=600&fit=crop",
+    image: "https://images.unsplash.com/photo-1575863438850-fb1c06a38885?auto=format&q=80&w=600&h=600&fit=crop",
     inStock: false,
     featured: false,
     rating: 4.6,
@@ -102,9 +102,9 @@ const products = [
       artist: "Nyoman Sukarta"
     },
     images: [
-      "https://images.unsplash.com/photo-1630019852942-7a3592373495?auto=format&q=80&w=600&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1641676003885-4ecde8dbac61?auto=format&q=80&w=600&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1608042314453-ae338d80c427?auto=format&q=80&w=600&h=600&fit=crop"
+      "https://images.unsplash.com/photo-1575863438850-fb1c06a38885?auto=format&q=80&w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&q=80&w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1635767798638-3e25273a8236?auto=format&q=80&w=600&h=600&fit=crop"
     ]
   },
   {
@@ -113,7 +113,7 @@ const products = [
     description: "Vibrant hand-painted silk scarf with abstract design. Each piece is one-of-a-kind and signed by the artist.",
     price: 110.00,
     category: "Textiles",
-    image: "https://images.unsplash.com/photo-1561062262-5fecf17a3d5a?auto=format&q=80&w=600&h=600&fit=crop",
+    image: "https://images.unsplash.com/photo-1550639525-c97d455acf70?auto=format&q=80&w=600&h=600&fit=crop",
     inStock: true,
     featured: true,
     rating: 5.0,
@@ -126,9 +126,9 @@ const products = [
       artist: "Claire Dubois"
     },
     images: [
-      "https://images.unsplash.com/photo-1561062262-5fecf17a3d5a?auto=format&q=80&w=600&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1543163906-2cbd7a77d3a4?auto=format&q=80&w=600&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1543076499-a6133cb932fd?auto=format&q=80&w=600&h=600&fit=crop"
+      "https://images.unsplash.com/photo-1550639525-c97d455acf70?auto=format&q=80&w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1543168527-99219cfbb6ad?auto=format&q=80&w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1603252109612-24fa03d145c8?auto=format&q=80&w=600&h=600&fit=crop"
     ]
   },
   {
@@ -137,7 +137,7 @@ const products = [
     description: "Handcrafted stoneware plant pot with a textured finish. Includes drainage hole and matching saucer.",
     price: 42.00,
     category: "Ceramics",
-    image: "https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&q=80&w=600&h=600&fit=crop",
+    image: "https://images.unsplash.com/photo-1622398925373-3f91b1e275f5?auto=format&q=80&w=600&h=600&fit=crop",
     inStock: true,
     featured: false,
     rating: 4.5,
@@ -150,9 +150,9 @@ const products = [
       artist: "Daniel Kim"
     },
     images: [
-      "https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&q=80&w=600&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1512428813834-c702c7702b78?auto=format&q=80&w=600&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1531896642854-7788fa48d986?auto=format&q=80&w=600&h=600&fit=crop"
+      "https://images.unsplash.com/photo-1622398925373-3f91b1e275f5?auto=format&q=80&w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1620800755732-74d1f4f59342?auto=format&q=80&w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1594281580247-7fe935261891?auto=format&q=80&w=600&h=600&fit=crop"
     ]
   }
 ];
