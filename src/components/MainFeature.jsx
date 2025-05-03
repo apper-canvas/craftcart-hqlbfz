@@ -251,7 +251,7 @@ const EmptyState = () => {
 };
 
 // Main product feature component
-const MainFeature = () => {
+const MainFeature = ({ selectedCategory }) => {
   const [products, setProducts] = useState(initialProducts);
   const [filteredProducts, setFilteredProducts] = useState(initialProducts);
   const [searchTerm, setSearchTerm] = useState('');
@@ -263,6 +263,15 @@ const MainFeature = () => {
   
   // Get unique categories from products
   const categories = [...new Set(products.map(product => product.category))];
+  
+  // Update active categories when selectedCategory changes
+  useEffect(() => {
+    if (selectedCategory) {
+      if (!activeCategories.includes(selectedCategory)) {
+        setActiveCategories([selectedCategory]);
+      }
+    }
+  }, [selectedCategory]);
   
   // Filter products based on search, categories, and price range
   useEffect(() => {
@@ -306,7 +315,7 @@ const MainFeature = () => {
     }
     
     setFilteredProducts(results);
-  }, [products, searchTerm, activeCategories, priceRange, sortOption]);
+  }, [products, searchTerm, activeCategories, priceRange, sortOption, selectedCategory]);
   
   // Handle category filter change
   const handleCategoryChange = (category) => {
@@ -377,7 +386,11 @@ const MainFeature = () => {
   return (
     <section className="container mx-auto px-4 py-16" id="products">
       <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold mb-4">Featured Products</h2>
+        <h2 className="text-3xl font-bold mb-4">
+          {activeCategories.length === 1 
+            ? `${activeCategories[0]} Products` 
+            : 'Featured Products'}
+        </h2>
         <p className="text-surface-600 dark:text-surface-400 max-w-2xl mx-auto">
           Browse our collection of unique handmade products, crafted with care by talented artisans.
         </p>

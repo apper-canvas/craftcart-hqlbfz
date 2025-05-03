@@ -52,12 +52,18 @@ const Hero = () => {
 };
 
 // Category card component
-const CategoryCard = ({ title, imageUrl, count }) => {
+const CategoryCard = ({ title, imageUrl, count, onCategorySelect }) => {
   const handleClick = () => {
-    toast.info(`Viewing ${title} category`, {
+    toast.success(`Showing ${title} products`, {
       position: "bottom-right",
       autoClose: 2000
     });
+    
+    // Call the function to filter products by this category
+    onCategorySelect(title);
+    
+    // Smooth scroll to the products section
+    document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
   };
   
   return (
@@ -90,7 +96,7 @@ const CategoryCard = ({ title, imageUrl, count }) => {
 };
 
 // Categories section
-const Categories = () => {
+const Categories = ({ onCategorySelect }) => {
   const categories = [
     { id: 1, title: "Ceramics", count: 24, imageUrl: "https://images.unsplash.com/photo-1610701596061-2ecf227e85b2?auto=format&q=80&w=400&h=400&fit=crop" },
     { id: 2, title: "Jewelry", count: 38, imageUrl: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&q=80&w=400&h=400&fit=crop" },
@@ -109,6 +115,7 @@ const Categories = () => {
             title={category.title}
             count={category.count}
             imageUrl={category.imageUrl}
+            onCategorySelect={onCategorySelect}
           />
         ))}
       </div>
@@ -217,11 +224,19 @@ const About = () => {
 
 // Home page component
 const Home = () => {
+  // State to track the selected category
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  // Handler for category selection
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+  };
+
   return (
     <div>
       <Hero />
-      <Categories />
-      <MainFeature />
+      <Categories onCategorySelect={handleCategorySelect} />
+      <MainFeature selectedCategory={selectedCategory} />
       <Features />
       <About />
     </div>
