@@ -21,6 +21,7 @@ const ReviewForm = ({ productId, productName }) => {
   const StarIcon = getIcon('Star');
   const ImageIcon = getIcon('Image');
   const LoaderIcon = getIcon('Loader');
+  const XIcon = getIcon('X'); // Add X icon for image removal
   
   const handleRatingClick = (rating) => {
     setFormData({ ...formData, rating });
@@ -234,7 +235,7 @@ const ReviewForm = ({ productId, productName }) => {
                     onClick={() => removeImage(index)}
                     className="absolute -top-2 -right-2 bg-surface-700 text-white rounded-full p-1"
                   >
-                    <getIcon name="X" className="w-3 h-3" />
+                    <XIcon className="w-3 h-3" />
                   </button>
                 </div>
               ))}
