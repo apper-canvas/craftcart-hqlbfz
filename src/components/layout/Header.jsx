@@ -1,10 +1,15 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectCartItemCount } from '../../features/cart/cartSlice';
 import getIcon from '../../utils/iconUtils';
+import SearchModal from './SearchModal';
+import UserDropdown from './UserDropdown';
 
 const Header = () => {
   const cartItemCount = useSelector(selectCartItemCount);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   
   // Icons
   const ShoppingCartIcon = getIcon('ShoppingCart');
@@ -12,6 +17,24 @@ const Header = () => {
   const SearchIcon = getIcon('Search');
   const MenuIcon = getIcon('Menu');
   const SunIcon = getIcon('Sun');
+  
+  const toggleSearch = () => {
+    setSearchOpen(!searchOpen);
+    // Close user dropdown if open
+    if (userDropdownOpen) setUserDropdownOpen(false);
+  };
+
+  const toggleUserDropdown = () => {
+    setUserDropdownOpen(!userDropdownOpen);
+    // Close search if open
+    if (searchOpen) setSearchOpen(false);
+  };
+
+  // Close dropdowns when clicking outside
+  const handleClickOutside = () => {
+    if (searchOpen) setSearchOpen(false);
+    if (userDropdownOpen) setUserDropdownOpen(false);
+  };
   
   return (
     <header className="bg-white dark:bg-surface-900 border-b border-surface-200 dark:border-surface-800 sticky top-0 z-50">
@@ -45,13 +68,22 @@ const Header = () => {
           {/* Actions */}
           <div className="flex items-center space-x-4">
             {/* Search button */}
-            <button className="p-2 text-surface-700 dark:text-surface-300 hover:text-primary dark:hover:text-primary-light rounded-full transition">
+            <button 
+              onClick={toggleSearch}
+              className="p-2 text-surface-700 dark:text-surface-300 hover:text-primary dark:hover:text-primary-light rounded-full transition"
+              aria-label="Search"
+            >
               <SearchIcon className="w-5 h-5" />
             </button>
             
             {/* Account button */}
-            <button className="p-2 text-surface-700 dark:text-surface-300 hover:text-primary dark:hover:text-primary-light rounded-full transition">
+            <button 
+              onClick={toggleUserDropdown}
+              className="p-2 text-surface-700 dark:text-surface-300 hover:text-primary dark:hover:text-primary-light rounded-full transition relative"
+              aria-label="User menu"
+            >
               <UserIcon className="w-5 h-5" />
+              {userDropdownOpen && <UserDropdown onClickOutside={handleClickOutside} />}
             </button>
             
             {/* Cart button */}
@@ -76,6 +108,9 @@ const Header = () => {
           </div>
         </div>
       </div>
+      
+      {/* Search Modal */}
+      {searchOpen && <SearchModal onClose={() => setSearchOpen(false)} />}
     </header>
   );
 };
