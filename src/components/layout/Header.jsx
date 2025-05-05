@@ -1,116 +1,95 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { selectCartItemCount } from '../../features/cart/cartSlice';
 import getIcon from '../../utils/iconUtils';
 import SearchModal from './SearchModal';
 import UserDropdown from './UserDropdown';
 
 const Header = () => {
-  const cartItemCount = useSelector(selectCartItemCount);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   
-  // Icons
-  const ShoppingCartIcon = getIcon('ShoppingCart');
-  const UserIcon = getIcon('User');
+  // Get icons
   const SearchIcon = getIcon('Search');
-  const MenuIcon = getIcon('Menu');
-  const SunIcon = getIcon('Sun');
+  const UserIcon = getIcon('User');
+  const ShoppingCartIcon = getIcon('ShoppingCart');
   
+  // Toggle search modal
   const toggleSearch = () => {
-    setSearchOpen(!searchOpen);
-    // Close user dropdown if open
-    if (userDropdownOpen) setUserDropdownOpen(false);
+    setIsSearchOpen(prev => !prev);
   };
-
+  
+  // Toggle user dropdown
   const toggleUserDropdown = () => {
-    setUserDropdownOpen(!userDropdownOpen);
-    // Close search if open
-    if (searchOpen) setSearchOpen(false);
-  };
-
-  // Close dropdowns when clicking outside
-  const handleClickOutside = () => {
-    if (searchOpen) setSearchOpen(false);
-    if (userDropdownOpen) setUserDropdownOpen(false);
+    setIsUserDropdownOpen(prev => !prev);
   };
   
   return (
-    <header className="bg-white dark:bg-surface-900 border-b border-surface-200 dark:border-surface-800 sticky top-0 z-50">
+    <header className="bg-white dark:bg-surface-900 border-b border-surface-200 dark:border-surface-800 sticky top-0 z-30">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center font-bold text-xl">
-            <span className="text-primary">Craft</span>
-            <span>Cart</span>
+          <Link to="/" className="flex items-center">
+            <span className="text-xl font-bold text-primary dark:text-primary-light">CraftCart</span>
           </Link>
           
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-6">
-            <Link to="/" className="text-surface-700 dark:text-surface-300 hover:text-primary dark:hover:text-primary-light transition">
+          {/* Navigation */}
+          <nav className="hidden md:flex space-x-4">
+            <Link to="/" className="px-3 py-2 text-surface-600 hover:text-primary dark:text-surface-300 dark:hover:text-primary-light transition duration-150">
               Home
             </Link>
-            <Link to="/#products" className="text-surface-700 dark:text-surface-300 hover:text-primary dark:hover:text-primary-light transition">
-              Products
+            <Link to="/categories" className="px-3 py-2 text-surface-600 hover:text-primary dark:text-surface-300 dark:hover:text-primary-light transition duration-150">
+              Shop
             </Link>
-            <Link to="/categories" className="text-surface-700 dark:text-surface-300 hover:text-primary dark:hover:text-primary-light transition">
-              Categories
-            </Link>
-            <Link to="/about" className="text-surface-700 dark:text-surface-300 hover:text-primary dark:hover:text-primary-light transition">
+            <Link to="/about" className="px-3 py-2 text-surface-600 hover:text-primary dark:text-surface-300 dark:hover:text-primary-light transition duration-150">
               About
             </Link>
-            <Link to="/contact" className="text-surface-700 dark:text-surface-300 hover:text-primary dark:hover:text-primary-light transition">
+            <Link to="/contact" className="px-3 py-2 text-surface-600 hover:text-primary dark:text-surface-300 dark:hover:text-primary-light transition duration-150">
               Contact
             </Link>
           </nav>
           
-          {/* Actions */}
-          <div className="flex items-center space-x-4">
-            {/* Search button */}
-            <button 
+          {/* Action buttons */}
+          <div className="flex items-center space-x-2">
+            <button
+              className="p-2 rounded-full text-surface-500 hover:text-primary hover:bg-surface-100 dark:text-surface-400 dark:hover:text-primary-light dark:hover:bg-surface-800 transition duration-150"
               onClick={toggleSearch}
-              className="p-2 text-surface-700 dark:text-surface-300 hover:text-primary dark:hover:text-primary-light rounded-full transition"
               aria-label="Search"
             >
               <SearchIcon className="w-5 h-5" />
             </button>
             
-            {/* Account button */}
-            <button 
-              onClick={toggleUserDropdown}
-              className="p-2 text-surface-700 dark:text-surface-300 hover:text-primary dark:hover:text-primary-light rounded-full transition relative"
-              aria-label="User menu"
+            <div className="relative">
+              <button
+                className="p-2 rounded-full text-surface-500 hover:text-primary hover:bg-surface-100 dark:text-surface-400 dark:hover:text-primary-light dark:hover:bg-surface-800 transition duration-150"
+                onClick={toggleUserDropdown}
+                aria-label="User menu"
+              >
+                <UserIcon className="w-5 h-5" />
+              </button>
+              
+              {/* User dropdown menu */}
+              <UserDropdown 
+                isOpen={isUserDropdownOpen} 
+                onClose={() => setIsUserDropdownOpen(false)} 
+              />
+            </div>
+            
+            <Link 
+              to="/checkout" 
+              className="p-2 rounded-full text-surface-500 hover:text-primary hover:bg-surface-100 dark:text-surface-400 dark:hover:text-primary-light dark:hover:bg-surface-800 relative transition duration-150"
+              aria-label="Shopping cart"
             >
-              <UserIcon className="w-5 h-5" />
-              {userDropdownOpen && <UserDropdown onClickOutside={handleClickOutside} />}
-            </button>
-            
-            {/* Cart button */}
-            <Link to="/checkout" className="p-2 text-surface-700 dark:text-surface-300 hover:text-primary dark:hover:text-primary-light rounded-full transition relative">
               <ShoppingCartIcon className="w-5 h-5" />
-              {cartItemCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  {cartItemCount > 9 ? '9+' : cartItemCount}
-                </span>
-              )}
+              <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+                3
+              </span>
             </Link>
-            
-            {/* Theme toggle */}
-            <button className="p-2 text-surface-700 dark:text-surface-300 hover:text-primary dark:hover:text-primary-light rounded-full transition">
-              <SunIcon className="w-5 h-5" />
-            </button>
-            
-            {/* Mobile menu button */}
-            <button className="p-2 md:hidden text-surface-700 dark:text-surface-300 hover:text-primary dark:hover:text-primary-light rounded-full transition">
-              <MenuIcon className="w-5 h-5" />
-            </button>
           </div>
         </div>
       </div>
       
       {/* Search Modal */}
-      {searchOpen && <SearchModal onClose={() => setSearchOpen(false)} />}
+      <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </header>
   );
 };
