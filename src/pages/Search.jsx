@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import getIcon from '../utils/iconUtils';
+import { Search as SearchIcon, SlidersHorizontal, Tag, Loader, Star, SearchX } from 'lucide-react';
 import { searchProducts, getCategories } from '../data/productData';
 
 const Search = () => {
@@ -13,11 +13,6 @@ const Search = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 1000]);
   const [showNoResults, setShowNoResults] = useState(false);
-  
-  // Icons
-  const SearchIcon = getIcon('Search');
-  const FilterIcon = getIcon('SlidersHorizontal');
-  const TagIcon = getIcon('Tag');
   
   // Load categories
   useEffect(() => {
@@ -105,7 +100,7 @@ const Search = () => {
         <div className="w-full md:w-64 bg-white dark:bg-surface-800 p-4 rounded-lg shadow border border-surface-200 dark:border-surface-700 h-fit">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-semibold text-surface-800 dark:text-white">Filters</h2>
-            <FilterIcon className="w-4 h-4 text-surface-500 dark:text-surface-400" />
+            <SlidersHorizontal className="w-4 h-4 text-surface-500 dark:text-surface-400" />
           </div>
           
           {/* Categories filter */}
@@ -213,7 +208,7 @@ const Search = () => {
           {loading ? (
             <div className="flex flex-col items-center justify-center h-64">
               <div className="animate-spin text-primary mb-4">
-                {getIcon('Loader')({ className: "w-8 h-8" })}
+                <Loader className="w-8 h-8" />
               </div>
               <p className="text-surface-600 dark:text-surface-400">
                 Searching for "{query}"...
@@ -254,7 +249,7 @@ const Search = () => {
                     </div>
                     <div className="p-4">
                       <div className="flex items-center gap-1 text-xs text-primary dark:text-primary-light mb-1">
-                        <TagIcon className="w-3 h-3" />
+                        <Tag className="w-3 h-3" />
                         {product.category}
                       </div>
                       <h3 className="font-medium text-surface-800 dark:text-white group-hover:text-primary transition-colors duration-200">
@@ -268,7 +263,7 @@ const Search = () => {
                           ${product.price.toFixed(2)}
                         </p>
                         <div className="flex items-center">
-                          {getIcon('Star')({ className: "w-4 h-4 text-yellow-400 fill-current" })}
+                          <Star className="w-4 h-4 text-yellow-400 fill-current" />
                           <span className="text-sm ml-1">{product.rating}</span>
                         </div>
                       </div>
@@ -280,7 +275,7 @@ const Search = () => {
           ) : showNoResults && (
             <div className="bg-white dark:bg-surface-800 rounded-lg p-8 text-center border border-surface-200 dark:border-surface-700">
               <div className="flex justify-center mb-4 text-surface-400">
-                {getIcon('SearchX')({ className: "w-12 h-12" })}
+                <SearchX className="w-12 h-12" />
               </div>
               <h2 className="text-xl font-semibold text-surface-800 dark:text-white mb-2">
                 No results found
