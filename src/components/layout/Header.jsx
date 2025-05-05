@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectCartItemCount } from '../../features/cart/cartSlice';
 import getIcon from '../../utils/iconUtils';
 import SearchModal from './SearchModal';
 import UserDropdown from './UserDropdown';
@@ -7,6 +9,7 @@ import UserDropdown from './UserDropdown';
 const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+  const cartItemCount = useSelector(selectCartItemCount);
   
   // Get icons
   const SearchIcon = getIcon('Search');
@@ -74,14 +77,16 @@ const Header = () => {
             </div>
             
             <Link 
-              to="/checkout" 
+              to="/cart" 
               className="p-2 rounded-full text-surface-500 hover:text-primary hover:bg-surface-100 dark:text-surface-400 dark:hover:text-primary-light dark:hover:bg-surface-800 relative transition duration-150"
               aria-label="Shopping cart"
             >
               <ShoppingCartIcon className="w-5 h-5" />
-              <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
-                3
-              </span>
+              {cartItemCount > 0 && (
+                <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+                  {cartItemCount > 99 ? '99+' : cartItemCount}
+                </span>
+              )}
             </Link>
           </div>
         </div>

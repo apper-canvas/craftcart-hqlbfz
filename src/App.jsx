@@ -29,6 +29,7 @@ import Privacy from './pages/Privacy';
 import Shipping from './pages/Shipping';
 import SignIn from './pages/SignIn';
 import Register from './pages/Register';
+import CartPage from './pages/CartPage';
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/cart" element={<CartPage />} />
             <Route path="/order-confirmation" element={<OrderConfirmation />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/admin/reviews" element={<ReviewModeration />} />
