@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import getIcon from '../../utils/iconUtils';
 import { toast } from 'react-toastify';
 
-const UserDropdown = ({ onClickOutside }) => {
+const UserDropdown = ({ onClose }) => {
   const dropdownRef = useRef(null);
   
   // Icons
@@ -17,7 +17,7 @@ const UserDropdown = ({ onClickOutside }) => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        onClickOutside();
+        onClose();
       }
     };
     
@@ -26,7 +26,7 @@ const UserDropdown = ({ onClickOutside }) => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [onClickOutside]);
+  }, [onClose]);
   
   const handleLogin = (e) => {
     e.preventDefault();
@@ -59,7 +59,7 @@ const UserDropdown = ({ onClickOutside }) => {
         <Link 
           to="/profile" 
           className="flex items-center px-4 py-2 text-sm text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700"
-          onClick={onClickOutside}
+          onClick={onClose}
         >
           <UserIcon className="w-4 h-4 mr-3 text-surface-500 dark:text-surface-400" />
           My Profile
@@ -68,7 +68,7 @@ const UserDropdown = ({ onClickOutside }) => {
         <Link 
           to="/orders" 
           className="flex items-center px-4 py-2 text-sm text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700"
-          onClick={onClickOutside}
+          onClick={onClose}
         >
           <ShoppingBagIcon className="w-4 h-4 mr-3 text-surface-500 dark:text-surface-400" />
           My Orders
@@ -77,7 +77,7 @@ const UserDropdown = ({ onClickOutside }) => {
         <Link 
           to="/wishlist" 
           className="flex items-center px-4 py-2 text-sm text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700"
-          onClick={onClickOutside}
+          onClick={onClose}
         >
           <HeartIcon className="w-4 h-4 mr-3 text-surface-500 dark:text-surface-400" />
           Wishlist
@@ -86,7 +86,7 @@ const UserDropdown = ({ onClickOutside }) => {
         <Link 
           to="/settings" 
           className="flex items-center px-4 py-2 text-sm text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700"
-          onClick={onClickOutside}
+          onClick={onClose}
         >
           <SettingsIcon className="w-4 h-4 mr-3 text-surface-500 dark:text-surface-400" />
           Settings
@@ -97,7 +97,7 @@ const UserDropdown = ({ onClickOutside }) => {
         <button 
           onClick={(e) => {
             e.preventDefault();
-            onClickOutside();
+            onClose();
             toast.info("Logout functionality will be implemented soon");
           }}
           className="flex w-full items-center px-4 py-2 text-sm text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700"

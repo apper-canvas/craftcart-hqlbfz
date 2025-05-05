@@ -67,11 +67,10 @@ const Header = () => {
                 <UserIcon className="w-5 h-5" />
               </button>
               
-              {/* User dropdown menu */}
-              <UserDropdown 
-                isOpen={isUserDropdownOpen} 
-                onClose={() => setIsUserDropdownOpen(false)} 
-              />
+              {/* User dropdown menu - only show when isUserDropdownOpen is true */}
+              {isUserDropdownOpen && (
+                <UserDropdown onClose={() => setIsUserDropdownOpen(false)} />
+              )}
             </div>
             
             <Link 
