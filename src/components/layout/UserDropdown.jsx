@@ -1,10 +1,12 @@
 import { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import getIcon from '../../utils/iconUtils';
-import { toast } from 'react-toastify';
+import { useAuth } from '../../context/AuthContext';
 
 const UserDropdown = ({ onClose }) => {
   const dropdownRef = useRef(null);
+  const navigate = useNavigate();
+  const { user, isAuthenticated, logout } = useAuth();
   
   // Icons
   const UserIcon = getIcon('User');
@@ -12,6 +14,8 @@ const UserDropdown = ({ onClose }) => {
   const HeartIcon = getIcon('Heart');
   const SettingsIcon = getIcon('Settings');
   const LogOutIcon = getIcon('LogOut');
+  const LogInIcon = getIcon('LogIn');
+  const UserPlusIcon = getIcon('UserPlus');
   
   // Handle outside clicks
   useEffect(() => {
@@ -28,9 +32,16 @@ const UserDropdown = ({ onClose }) => {
     };
   }, [onClose]);
   
-  const handleLogin = (e) => {
-    e.preventDefault();
-    toast.info("Login functionality will be implemented soon");
+  // Handle navigation and close dropdown
+  const handleNavigation = (path) => {
+    navigate(path);
+    onClose();
+  };
+  
+  // Handle logout
+  const handleLogout = () => {
+    logout();
+    onClose();
   };
   
   return (
@@ -44,68 +55,117 @@ const UserDropdown = ({ onClose }) => {
             <UserIcon className="w-5 h-5" />
           </div>
           <div className="ml-3">
-            <p className="text-sm font-medium text-surface-900 dark:text-white">Guest User</p>
-            <button
-              onClick={handleLogin}
-              className="text-xs text-primary hover:text-primary-dark dark:hover:text-primary-light"
-            >
-              Sign in / Register
-            </button>
+            {isAuthenticated ? (
+              <>
+                <p className="text-sm font-medium text-surface-900 dark:text-white">
+                  {user.name}
+                </p>
+                <p className="text-xs text-surface-500 dark:text-surface-400">{user.email}</p>
+              </>
+            ) : (
+              <>
+                <p className="text-sm font-medium text-surface-900 dark:text-white">Guest User</p>
+                <div className="flex space-x-2">
+                  <button
+                    onClick={() => handleNavigation('/signin')}
+                    className="text-xs text-primary hover:text-primary-dark dark:hover:text-primary-light"
+                  >
+                    Sign in
+                  </button>
+                  <span className="text-xs text-surface-400">/</span>
+                  <button
+                    onClick={() => handleNavigation('/register')}
+                    className="text-xs text-primary hover:text-primary-dark dark:hover:text-primary-light"
+                  >
+                    Register
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
       
-      <div className="py-2">
-        <Link 
-          to="/profile" 
-          className="flex items-center px-4 py-2 text-sm text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700"
-          onClick={onClose}
-        >
-          <UserIcon className="w-4 h-4 mr-3 text-surface-500 dark:text-surface-400" />
-          My Profile
-        </Link>
-        
-        <Link 
-          to="/orders" 
-          className="flex items-center px-4 py-2 text-sm text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700"
-          onClick={onClose}
-        >
-          <ShoppingBagIcon className="w-4 h-4 mr-3 text-surface-500 dark:text-surface-400" />
-          My Orders
-        </Link>
-        
-        <Link 
-          to="/wishlist" 
-          className="flex items-center px-4 py-2 text-sm text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700"
-          onClick={onClose}
-        >
-          <HeartIcon className="w-4 h-4 mr-3 text-surface-500 dark:text-surface-400" />
-          Wishlist
-        </Link>
-        
-        <Link 
-          to="/settings" 
-          className="flex items-center px-4 py-2 text-sm text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700"
-          onClick={onClose}
-        >
-          <SettingsIcon className="w-4 h-4 mr-3 text-surface-500 dark:text-surface-400" />
-          Settings
-        </Link>
-      </div>
-      
-      <div className="border-t border-surface-200 dark:border-surface-700 py-2">
-        <button 
-          onClick={(e) => {
-            e.preventDefault();
-            onClose();
-            toast.info("Logout functionality will be implemented soon");
-          }}
-          className="flex w-full items-center px-4 py-2 text-sm text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700"
-        >
-          <LogOutIcon className="w-4 h-4 mr-3 text-surface-500 dark:text-surface-400" />
-          Logout
-        </button>
-      </div>
+      {isAuthenticated ? (
+        // Authenticated user menu
+        <>
+          <div className="py-2">
+            <Link 
+              to="/profile" 
+              className="flex items-center px-4 py-2 text-sm text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700"
+              onClick={onClose}
+            >
+              <UserIcon className="w-4 h-4 mr-3 text-surface-500 dark:text-surface-400" />
+              My Profile
+            </Link>
+            
+            <Link 
+              to="/orders" 
+              className="flex items-center px-4 py-2 text-sm text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700"
+              onClick={onClose}
+            >
+              <ShoppingBagIcon className="w-4 h-4 mr-3 text-surface-500 dark:text-surface-400" />
+              My Orders
+            </Link>
+            
+            <Link 
+              to="/wishlist" 
+              className="flex items-center px-4 py-2 text-sm text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700"
+              onClick={onClose}
+            >
+              <HeartIcon className="w-4 h-4 mr-3 text-surface-500 dark:text-surface-400" />
+              Wishlist
+            </Link>
+            
+            <Link 
+              to="/settings" 
+              className="flex items-center px-4 py-2 text-sm text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700"
+              onClick={onClose}
+            >
+              <SettingsIcon className="w-4 h-4 mr-3 text-surface-500 dark:text-surface-400" />
+              Settings
+            </Link>
+          </div>
+          
+          <div className="border-t border-surface-200 dark:border-surface-700 py-2">
+            <button 
+              onClick={handleLogout}
+              className="flex w-full items-center px-4 py-2 text-sm text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700"
+            >
+              <LogOutIcon className="w-4 h-4 mr-3 text-surface-500 dark:text-surface-400" />
+              Logout
+            </button>
+          </div>
+        </>
+      ) : (
+        // Guest user menu
+        <div className="py-2">
+          <button
+            onClick={() => handleNavigation('/signin')}
+            className="flex w-full items-center px-4 py-2 text-sm text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700"
+          >
+            <LogInIcon className="w-4 h-4 mr-3 text-surface-500 dark:text-surface-400" />
+            Sign In
+          </button>
+          
+          <button
+            onClick={() => handleNavigation('/register')}
+            className="flex w-full items-center px-4 py-2 text-sm text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700"
+          >
+            <UserPlusIcon className="w-4 h-4 mr-3 text-surface-500 dark:text-surface-400" />
+            Register
+          </button>
+          
+          <Link 
+            to="/orders" 
+            className="flex items-center px-4 py-2 text-sm text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700"
+            onClick={onClose}
+          >
+            <ShoppingBagIcon className="w-4 h-4 mr-3 text-surface-500 dark:text-surface-400" />
+            Track Order
+          </Link>
+        </div>
+      )}
     </div>
   );
 };
