@@ -13,6 +13,9 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import Search from './pages/Search';
 import Profile from './pages/Profile';
+import Orders from './pages/Orders';
+import Wishlist from './pages/Wishlist';
+import Settings from './pages/Settings';
 
 function App() {
   return (
@@ -29,6 +32,9 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/search" element={<Search />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/settings" element={<Settings />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>

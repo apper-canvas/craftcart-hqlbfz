@@ -1,334 +1,317 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import getIcon from '../utils/iconUtils';
 import { toast } from 'react-toastify';
 
 const Profile = () => {
-  const [activeTab, setActiveTab] = useState('profile');
-  const [editMode, setEditMode] = useState(false);
-  
+  const [isLoading, setIsLoading] = useState(true);
+  const [userData, setUserData] = useState(null);
+  const [recentOrders, setRecentOrders] = useState([]);
+
   // Icons
   const UserIcon = getIcon('User');
   const ShoppingBagIcon = getIcon('ShoppingBag');
   const HeartIcon = getIcon('Heart');
+  const SettingsIcon = getIcon('Settings');
+  const MapPinIcon = getIcon('MapPin');
   const CreditCardIcon = getIcon('CreditCard');
-  const HomeIcon = getIcon('Home');
-  const BellIcon = getIcon('Bell');
   const EditIcon = getIcon('Edit');
-  const SaveIcon = getIcon('Save');
-  
-  // Mock user data
-  const [user, setUser] = useState({
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    phone: '+1 (555) 123-4567',
-    avatar: null
-  });
-  
-  const handleSaveProfile = (e) => {
-    e.preventDefault();
-    setEditMode(false);
-    toast.success('Profile updated successfully');
+  const ArrowRightIcon = getIcon('ArrowRight');
+  const CalendarIcon = getIcon('Calendar');
+  const MailIcon = getIcon('Mail');
+  const PhoneIcon = getIcon('Phone');
+
+  useEffect(() => {
+    // Simulate API call to fetch user data
+    const fetchUserData = async () => {
+      try {
+        // Simulate delay
+        await new Promise(resolve => setTimeout(resolve, 1200));
+        
+        // Mock user data
+        const mockUser = {
+          id: 'usr_123456',
+          firstName: 'John',
+          lastName: 'Doe',
+          email: 'johndoe@example.com',
+          phone: '+1 (555) 123-4567',
+          joined: '2023-05-15',
+          address: {
+            street: '123 Main Street',
+            city: 'Anytown',
+            state: 'CA',
+            zip: '12345',
+            country: 'United States'
+          },
+          profilePicture: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+        };
+        
+        // Mock recent orders
+        const mockOrders = [
+          {
+            id: 'ORD-38294',
+            date: '2023-11-15',
+            status: 'Delivered',
+            total: 129.99,
+            items: 3
+          },
+          {
+            id: 'ORD-27184',
+            date: '2023-10-28',
+            status: 'Shipped',
+            total: 86.50,
+            items: 2
+          }
+        ];
+        
+        setUserData(mockUser);
+        setRecentOrders(mockOrders);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        toast.error('Failed to load profile data. Please try again later.');
+        setIsLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  const handleEditProfile = () => {
+    toast.info('Edit profile functionality will be implemented soon');
   };
-  
+
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-2xl md:text-3xl font-bold text-surface-800 dark:text-white mb-8">
-          My Account
-        </h1>
-        
-        <div className="flex flex-col md:flex-row gap-6">
-          {/* Sidebar */}
-          <div className="w-full md:w-64">
-            <div className="bg-white dark:bg-surface-800 rounded-lg shadow border border-surface-200 dark:border-surface-700 overflow-hidden sticky top-24">
-              {/* User Info */}
-              <div className="p-6 border-b border-surface-200 dark:border-surface-700">
-                <div className="flex flex-col items-center">
-                  <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center text-white mb-3">
-                    {user.avatar ? (
-                      <img 
-                        src={user.avatar} 
-                        alt={user.name} 
-                        className="w-full h-full rounded-full object-cover"
-                      />
-                    ) : (
-                      <UserIcon className="w-8 h-8" />
-                    )}
-                  </div>
-                  <h2 className="text-lg font-semibold text-surface-800 dark:text-white">
-                    {user.name}
-                  </h2>
-                  <p className="text-sm text-surface-500 dark:text-surface-400">
-                    {user.email}
-                  </p>
+      {isLoading ? (
+        <div className="flex justify-center items-center py-20">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        </div>
+      ) : (
+        <>
+          {/* Profile Header */}
+          <div className="bg-white dark:bg-surface-800 rounded-lg shadow-sm border border-surface-200 dark:border-surface-700 overflow-hidden mb-8">
+            <div className="md:flex">
+              <div className="md:flex-shrink-0 p-6 flex justify-center md:justify-start">
+                <div className="relative">
+                  <img 
+                    src={userData.profilePicture} 
+                    alt={`${userData.firstName} ${userData.lastName}`} 
+                    className="h-32 w-32 rounded-full object-cover border-4 border-white dark:border-surface-700"
+                  />
+                  <button 
+                    onClick={handleEditProfile}
+                    className="absolute bottom-0 right-0 bg-primary text-white p-2 rounded-full shadow"
+                  >
+                    <EditIcon className="w-4 h-4" />
+                  </button>
                 </div>
               </div>
               
-              {/* Navigation */}
-              <nav className="p-2">
-                <button
-                  onClick={() => setActiveTab('profile')}
-                  className={`flex items-center w-full px-4 py-2 rounded-lg text-sm mb-1 ${
-                    activeTab === 'profile'
-                      ? 'bg-primary text-white'
-                      : 'text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700'
-                  }`}
-                >
-                  <UserIcon className={`w-4 h-4 mr-3 ${
-                    activeTab === 'profile' ? 'text-white' : 'text-surface-500 dark:text-surface-400'
-                  }`} />
-                  Profile
-                </button>
+              <div className="p-6 md:p-8 flex-1">
+                <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
+                  <div>
+                    <h1 className="text-2xl font-bold text-surface-900 dark:text-white">
+                      {userData.firstName} {userData.lastName}
+                    </h1>
+                    <p className="text-surface-500 dark:text-surface-400 flex items-center mt-1">
+                      <CalendarIcon className="w-4 h-4 mr-1" />
+                      Member since {new Date(userData.joined).toLocaleDateString('en-US', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                      })}
+                    </p>
+                  </div>
+                  <div className="mt-4 md:mt-0">
+                    <button
+                      onClick={handleEditProfile}
+                      className="inline-flex items-center px-4 py-2 text-sm font-medium rounded-md text-white bg-primary hover:bg-primary-dark transition-colors"
+                    >
+                      <EditIcon className="w-4 h-4 mr-2" />
+                      Edit Profile
+                    </button>
+                  </div>
+                </div>
                 
-                <button
-                  onClick={() => {
-                    setActiveTab('orders');
-                    toast.info('Orders functionality will be implemented soon');
-                  }}
-                  className={`flex items-center w-full px-4 py-2 rounded-lg text-sm mb-1 ${
-                    activeTab === 'orders'
-                      ? 'bg-primary text-white'
-                      : 'text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700'
-                  }`}
-                >
-                  <ShoppingBagIcon className={`w-4 h-4 mr-3 ${
-                    activeTab === 'orders' ? 'text-white' : 'text-surface-500 dark:text-surface-400'
-                  }`} />
-                  Orders
-                </button>
-                
-                <button
-                  onClick={() => {
-                    setActiveTab('wishlist');
-                    toast.info('Wishlist functionality will be implemented soon');
-                  }}
-                  className={`flex items-center w-full px-4 py-2 rounded-lg text-sm mb-1 ${
-                    activeTab === 'wishlist'
-                      ? 'bg-primary text-white'
-                      : 'text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700'
-                  }`}
-                >
-                  <HeartIcon className={`w-4 h-4 mr-3 ${
-                    activeTab === 'wishlist' ? 'text-white' : 'text-surface-500 dark:text-surface-400'
-                  }`} />
-                  Wishlist
-                </button>
-                
-                <button
-                  onClick={() => {
-                    setActiveTab('payment');
-                    toast.info('Payment methods functionality will be implemented soon');
-                  }}
-                  className={`flex items-center w-full px-4 py-2 rounded-lg text-sm mb-1 ${
-                    activeTab === 'payment'
-                      ? 'bg-primary text-white'
-                      : 'text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700'
-                  }`}
-                >
-                  <CreditCardIcon className={`w-4 h-4 mr-3 ${
-                    activeTab === 'payment' ? 'text-white' : 'text-surface-500 dark:text-surface-400'
-                  }`} />
-                  Payment Methods
-                </button>
-                
-                <button
-                  onClick={() => {
-                    setActiveTab('addresses');
-                    toast.info('Addresses functionality will be implemented soon');
-                  }}
-                  className={`flex items-center w-full px-4 py-2 rounded-lg text-sm mb-1 ${
-                    activeTab === 'addresses'
-                      ? 'bg-primary text-white'
-                      : 'text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700'
-                  }`}
-                >
-                  <HomeIcon className={`w-4 h-4 mr-3 ${
-                    activeTab === 'addresses' ? 'text-white' : 'text-surface-500 dark:text-surface-400'
-                  }`} />
-                  Addresses
-                </button>
-                
-                <button
-                  onClick={() => {
-                    setActiveTab('notifications');
-                    toast.info('Notifications functionality will be implemented soon');
-                  }}
-                  className={`flex items-center w-full px-4 py-2 rounded-lg text-sm mb-1 ${
-                    activeTab === 'notifications'
-                      ? 'bg-primary text-white'
-                      : 'text-surface-700 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700'
-                  }`}
-                >
-                  <BellIcon className={`w-4 h-4 mr-3 ${
-                    activeTab === 'notifications' ? 'text-white' : 'text-surface-500 dark:text-surface-400'
-                  }`} />
-                  Notifications
-                </button>
-              </nav>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex items-start">
+                    <MailIcon className="w-5 h-5 text-surface-500 dark:text-surface-400 mt-0.5 mr-3" />
+                    <div>
+                      <p className="text-sm text-surface-500 dark:text-surface-400">Email</p>
+                      <p className="text-surface-900 dark:text-white">{userData.email}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start">
+                    <PhoneIcon className="w-5 h-5 text-surface-500 dark:text-surface-400 mt-0.5 mr-3" />
+                    <div>
+                      <p className="text-sm text-surface-500 dark:text-surface-400">Phone</p>
+                      <p className="text-surface-900 dark:text-white">{userData.phone}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start md:col-span-2">
+                    <MapPinIcon className="w-5 h-5 text-surface-500 dark:text-surface-400 mt-0.5 mr-3" />
+                    <div>
+                      <p className="text-sm text-surface-500 dark:text-surface-400">Address</p>
+                      <p className="text-surface-900 dark:text-white">
+                        {userData.address.street}, {userData.address.city}, {userData.address.state} {userData.address.zip}, {userData.address.country}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           
-          {/* Main Content */}
-          <div className="flex-1">
-            <div className="bg-white dark:bg-surface-800 rounded-lg shadow border border-surface-200 dark:border-surface-700 p-6">
-              {activeTab === 'profile' && (
-                <>
-                  <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-xl font-semibold text-surface-800 dark:text-white">
-                      Profile Information
-                    </h2>
-                    <button
-                      onClick={() => setEditMode(!editMode)}
-                      className="flex items-center text-sm text-primary hover:text-primary-dark dark:hover:text-primary-light"
-                    >
-                      {editMode ? (
-                        <>
-                          <SaveIcon className="w-4 h-4 mr-1" />
-                          Save
-                        </>
-                      ) : (
-                        <>
-                          <EditIcon className="w-4 h-4 mr-1" />
-                          Edit
-                        </>
-                      )}
-                    </button>
-                  </div>
-                  
-                  {editMode ? (
-                    <form onSubmit={handleSaveProfile}>
-                      <div className="space-y-4">
-                        <div>
-                          <label htmlFor="name" className="block text-sm font-medium text-surface-700 dark:text-surface-300 mb-1">
-                            Full Name
-                          </label>
-                          <input
-                            type="text"
-                            id="name"
-                            value={user.name}
-                            onChange={(e) => setUser({...user, name: e.target.value})}
-                            className="input w-full"
-                          />
-                        </div>
-                        
-                        <div>
-                          <label htmlFor="email" className="block text-sm font-medium text-surface-700 dark:text-surface-300 mb-1">
-                            Email Address
-                          </label>
-                          <input
-                            type="email"
-                            id="email"
-                            value={user.email}
-                            onChange={(e) => setUser({...user, email: e.target.value})}
-                            className="input w-full"
-                          />
-                        </div>
-                        
-                        <div>
-                          <label htmlFor="phone" className="block text-sm font-medium text-surface-700 dark:text-surface-300 mb-1">
-                            Phone Number
-                          </label>
-                          <input
-                            type="tel"
-                            id="phone"
-                            value={user.phone}
-                            onChange={(e) => setUser({...user, phone: e.target.value})}
-                            className="input w-full"
-                          />
-                        </div>
-                        
-                        <div className="mt-6 flex justify-end">
-                          <button
-                            type="button"
-                            onClick={() => setEditMode(false)}
-                            className="btn btn-outline mr-3"
-                          >
-                            Cancel
-                          </button>
-                          <button
-                            type="submit"
-                            className="btn btn-primary"
-                          >
-                            Save Changes
-                          </button>
-                        </div>
-                      </div>
-                    </form>
-                  ) : (
-                    <div className="space-y-4">
-                      <div className="border-b border-surface-200 dark:border-surface-700 pb-3">
-                        <h3 className="text-sm text-surface-500 dark:text-surface-400 mb-1">
-                          Full Name
-                        </h3>
-                        <p className="text-surface-800 dark:text-white">
-                          {user.name}
-                        </p>
-                      </div>
-                      
-                      <div className="border-b border-surface-200 dark:border-surface-700 pb-3">
-                        <h3 className="text-sm text-surface-500 dark:text-surface-400 mb-1">
-                          Email Address
-                        </h3>
-                        <p className="text-surface-800 dark:text-white">
-                          {user.email}
-                        </p>
-                      </div>
-                      
-                      <div className="border-b border-surface-200 dark:border-surface-700 pb-3">
-                        <h3 className="text-sm text-surface-500 dark:text-surface-400 mb-1">
-                          Phone Number
-                        </h3>
-                        <p className="text-surface-800 dark:text-white">
-                          {user.phone}
-                        </p>
-                      </div>
-                      
-                      <div className="pt-2">
-                        <button
-                          onClick={() => {
-                            toast.info('Password change functionality will be implemented soon');
-                          }}
-                          className="text-primary hover:text-primary-dark dark:hover:text-primary-light text-sm font-medium"
-                        >
-                          Change Password
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </>
-              )}
-              
-              {activeTab !== 'profile' && (
-                <div className="flex flex-col items-center justify-center py-8">
-                  <div className="text-surface-400 dark:text-surface-500 mb-4">
-                    {getIcon(
-                      activeTab === 'orders' ? 'PackageOpen' :
-                      activeTab === 'wishlist' ? 'Heart' :
-                      activeTab === 'payment' ? 'CreditCard' :
-                      activeTab === 'addresses' ? 'Home' : 'Bell'
-                    )({ className: "w-16 h-16" })}
-                  </div>
-                  <h3 className="text-lg font-medium text-surface-800 dark:text-white mb-2">
-                    {activeTab === 'orders' ? 'Your Orders' :
-                     activeTab === 'wishlist' ? 'Your Wishlist' :
-                     activeTab === 'payment' ? 'Payment Methods' :
-                     activeTab === 'addresses' ? 'Your Addresses' : 'Notifications'}
-                  </h3>
-                  <p className="text-surface-500 dark:text-surface-400 text-center max-w-md mb-6">
-                    This feature is coming soon. Check back later for updates.
-                  </p>
-                  <button
-                    onClick={() => setActiveTab('profile')}
-                    className="btn btn-primary"
-                  >
-                    Back to Profile
-                  </button>
-                </div>
-              )}
-            </div>
+          {/* Quick Links */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <Link 
+              to="/orders" 
+              className="flex items-center p-4 bg-white dark:bg-surface-800 rounded-lg shadow-sm border border-surface-200 dark:border-surface-700 hover:border-primary dark:hover:border-primary transition-colors"
+            >
+              <div className="p-3 bg-primary-50 dark:bg-surface-700 rounded-full mr-4">
+                <ShoppingBagIcon className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-medium text-surface-900 dark:text-white">My Orders</h3>
+                <p className="text-sm text-surface-500 dark:text-surface-400">View order history</p>
+              </div>
+            </Link>
+            
+            <Link 
+              to="/wishlist" 
+              className="flex items-center p-4 bg-white dark:bg-surface-800 rounded-lg shadow-sm border border-surface-200 dark:border-surface-700 hover:border-primary dark:hover:border-primary transition-colors"
+            >
+              <div className="p-3 bg-primary-50 dark:bg-surface-700 rounded-full mr-4">
+                <HeartIcon className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-medium text-surface-900 dark:text-white">Wishlist</h3>
+                <p className="text-sm text-surface-500 dark:text-surface-400">Saved items</p>
+              </div>
+            </Link>
+            
+            <Link 
+              to="/settings" 
+              className="flex items-center p-4 bg-white dark:bg-surface-800 rounded-lg shadow-sm border border-surface-200 dark:border-surface-700 hover:border-primary dark:hover:border-primary transition-colors"
+            >
+              <div className="p-3 bg-primary-50 dark:bg-surface-700 rounded-full mr-4">
+                <SettingsIcon className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-medium text-surface-900 dark:text-white">Settings</h3>
+                <p className="text-sm text-surface-500 dark:text-surface-400">Manage account</p>
+              </div>
+            </Link>
+            
+            <Link 
+              to="/settings?tab=payment" 
+              className="flex items-center p-4 bg-white dark:bg-surface-800 rounded-lg shadow-sm border border-surface-200 dark:border-surface-700 hover:border-primary dark:hover:border-primary transition-colors"
+            >
+              <div className="p-3 bg-primary-50 dark:bg-surface-700 rounded-full mr-4">
+                <CreditCardIcon className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-medium text-surface-900 dark:text-white">Payment Methods</h3>
+                <p className="text-sm text-surface-500 dark:text-surface-400">Manage payment options</p>
+              </div>
+            </Link>
           </div>
-        </div>
-      </div>
+          
+          {/* Recent Orders */}
+          <div className="bg-white dark:bg-surface-800 rounded-lg shadow-sm border border-surface-200 dark:border-surface-700 overflow-hidden mb-8">
+            <div className="p-6 border-b border-surface-200 dark:border-surface-700 flex justify-between items-center">
+              <h2 className="text-lg font-medium text-surface-900 dark:text-white">Recent Orders</h2>
+              <Link 
+                to="/orders"
+                className="text-primary hover:text-primary-dark dark:hover:text-primary-light text-sm font-medium flex items-center"
+              >
+                View all
+                <ArrowRightIcon className="w-4 h-4 ml-1" />
+              </Link>
+            </div>
+            
+            {recentOrders.length > 0 ? (
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-surface-200 dark:divide-surface-700">
+                  <thead className="bg-surface-50 dark:bg-surface-700">
+                    <tr>
+                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-surface-500 dark:text-surface-400 uppercase tracking-wider">
+                        Order ID
+                      </th>
+                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-surface-500 dark:text-surface-400 uppercase tracking-wider">
+                        Date
+                      </th>
+                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-surface-500 dark:text-surface-400 uppercase tracking-wider">
+                        Status
+                      </th>
+                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-surface-500 dark:text-surface-400 uppercase tracking-wider">
+                        Items
+                      </th>
+                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-surface-500 dark:text-surface-400 uppercase tracking-wider">
+                        Total
+                      </th>
+                      <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-surface-500 dark:text-surface-400 uppercase tracking-wider">
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white dark:bg-surface-800 divide-y divide-surface-200 dark:divide-surface-700">
+                    {recentOrders.map((order) => (
+                      <tr key={order.id}>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-surface-900 dark:text-white">
+                          {order.id}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-700 dark:text-surface-300">
+                          {new Date(order.date).toLocaleDateString()}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm">
+                          <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                            order.status === 'Delivered' 
+                              ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' 
+                              : order.status === 'Shipped' 
+                                ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
+                                : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                          }`}>
+                            {order.status}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-700 dark:text-surface-300">
+                          {order.items}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-surface-900 dark:text-white">
+                          ${order.total.toFixed(2)}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm">
+                          <button
+                            onClick={() => toast.info(`Order details for ${order.id} will be implemented soon.`)}
+                            className="text-primary hover:text-primary-dark dark:hover:text-primary-light font-medium"
+                          >
+                            View
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div className="p-8 text-center">
+                <ShoppingBagIcon className="w-12 h-12 mx-auto text-surface-400 dark:text-surface-500 mb-4" />
+                <p className="text-surface-700 dark:text-surface-300">You haven't placed any orders yet.</p>
+                <Link
+                  to="/categories"
+                  className="mt-4 inline-flex items-center px-4 py-2 text-sm font-medium rounded-md text-white bg-primary hover:bg-primary-dark transition-colors"
+                >
+                  Start Shopping
+                </Link>
+              </div>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 };
