@@ -16,6 +16,15 @@ import Profile from './pages/Profile';
 import Orders from './pages/Orders';
 import Wishlist from './pages/Wishlist';
 import Settings from './pages/Settings';
+import CategoryPage from './pages/CategoryPage';
+import NewArrivals from './pages/NewArrivals';
+import Artisans from './pages/Artisans';
+import Sustainability from './pages/Sustainability';
+import Blog from './pages/Blog';
+import Careers from './pages/Careers';
+import Terms from './pages/Terms';
+import Privacy from './pages/Privacy';
+import Shipping from './pages/Shipping';
 
 function App() {
   return (
@@ -35,6 +44,22 @@ function App() {
           <Route path="/orders" element={<Orders />} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/settings" element={<Settings />} />
+          
+          {/* Category pages */}
+          <Route path="/category/:categoryName" element={<CategoryPage />} />
+          <Route path="/new-arrivals" element={<NewArrivals />} />
+          
+          {/* Company pages */}
+          <Route path="/artisans" element={<Artisans />} />
+          <Route path="/sustainability" element={<Sustainability />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/careers" element={<Careers />} />
+          
+          {/* Policy pages */}
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/shipping" element={<Shipping />} />
+          
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
